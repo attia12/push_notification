@@ -16,7 +16,8 @@ pipeline {
         stage('Unit Test') {
             steps {
                 script {
-                    sh 'export CHROME_BIN=/usr/bin/google-chrome && npm test'
+                    // Use headless mode for Chrome
+                    sh 'export CHROME_BIN=/usr/bin/google-chrome && export DISPLAY=:99 && npm test -- --no-watch --browsers=ChromeHeadless'
                 }
             }
         }
