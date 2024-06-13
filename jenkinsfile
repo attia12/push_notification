@@ -1,26 +1,32 @@
 pipeline {
     agent any
 
+    environment {
+        CHROME_BIN = '/usr/bin/google-chrome-stable'
+    }
+
     stages {
+        stage('Install Chrome') {
+            steps {
+                sh 'wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add -'
+                sh 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list'
+                sh 'apt-get update'
+                sh 'apt-get install -y google-chrome-stable'
+            }
+        }
         stage('Install dependencies') {
             steps {
-                script {
-                    sh 'npm install'
-                }
+                sh 'npm install'
             }
         }
         stage('Unit Test') {
             steps {
-                script {
-                    sh 'npm test'
-                }
+                sh 'npm test'
             }
         }
         stage('Build application') {
             steps {
-                script {
-                    sh 'npm run build-dev'
-                }
+                sh 'npm run build-dev'
             }
         }
     }
