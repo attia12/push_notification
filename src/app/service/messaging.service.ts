@@ -34,6 +34,25 @@ export class MessagingService {
       (payload) => {
         console.log("new message received. ", payload);
         this.currentMessage.next(payload);
+        this.showCustomNotification(payload);
       });
+  }
+  showCustomNotification(payload:any)
+  {
+    let notify_data=payload['notification'];
+
+    let title=notify_data['title'];
+    let options= {
+      body : notify_data['body'],
+      icon:"./assets/image/logo.jpg",
+      badge:"./assets/image/badge.png",
+      image:"./assets/image/logo.jpg",
+    };
+    console.log("new message received",notify_data);
+    let notify:Notification=new Notification(title,options)
+    notify.onclick=event => {
+      event.preventDefault();
+      window.location.href='https://www.google.com';
+    }
   }
 }
