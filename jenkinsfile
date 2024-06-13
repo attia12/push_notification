@@ -1,18 +1,22 @@
 pipeline {
     agent any
 
+    environment {
+        CHROME_BIN = '/usr/bin/google-chrome'
+    }
+
     stages {
         stage('Install dependencies') {
             steps {
                 script {
-                    sh 'npm install --legacy-peer-deps'
+                    sh 'npm install'
                 }
             }
         }
         stage('Unit Test') {
             steps {
                 script {
-                    sh 'npm test'
+                    sh 'export CHROME_BIN=/usr/bin/google-chrome && npm test'
                 }
             }
         }
